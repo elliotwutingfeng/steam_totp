@@ -41,7 +41,7 @@ class SteamTOTP {
     }
 
     final Uint8List hmac =
-        HMAC(sha1, _sharedSecretArray).convert(timeArray).bytes;
+        HMAC(sha1).by(_sharedSecretArray).convert(timeArray).bytes;
     final int b = (hmac[19] & 0xF) % 0xFF;
     int codePoint = (hmac[b] & 0x7F) << 24 |
         (hmac[b + 1] & 0xFF) << 16 |
