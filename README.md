@@ -8,4 +8,4 @@ A Dart library for generating 5-character alphanumeric Steam TOTP codes.
 
 ## Requirements
 
-- **Dart SDK:** 3.0+
+- **Dart SDK:** 3.4+
