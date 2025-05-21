@@ -1,6 +1,6 @@
 import 'dart:typed_data';
 
-import 'package:base32/base32.dart';
+import 'package:hashlib/codecs.dart';
 import 'package:hashlib/hashlib.dart';
 
 /// [SteamTOTP] generates 5-character alphanumeric Steam TOTP codes.
@@ -16,7 +16,7 @@ class SteamTOTP {
       throw ArgumentError('secret must not be empty.');
     }
     try {
-      _sharedSecretArray = base32.decode(secret);
+      _sharedSecretArray = fromBase32(secret, codec: Base32Codec.standard);
       if (_sharedSecretArray.isEmpty) {
         throw Exception();
       }
@@ -40,10 +40,12 @@ class SteamTOTP {
       time = time >> 8;
     }
 
-    final Uint8List hmac =
-        HMAC(sha1).by(_sharedSecretArray).convert(timeArray).bytes;
+    final Uint8List hmac = HMAC(
+      sha1,
+    ).by(_sharedSecretArray).convert(timeArray).bytes;
     final int b = (hmac[19] & 0xF) % 0xFF;
-    int codePoint = (hmac[b] & 0x7F) << 24 |
+    int codePoint =
+        (hmac[b] & 0x7F) << 24 |
         (hmac[b + 1] & 0xFF) << 16 |
         (hmac[b + 2] & 0xFF) << 8 |
         (hmac[b + 3] & 0xFF); // Maximum possible value: 2147483647
