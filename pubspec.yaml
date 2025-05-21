@@ -12,13 +12,13 @@ topics:
   - security
 
 environment:
-  sdk: ^3.4.0
+  sdk: ^3.8.0
 
 dependencies:
   base32: ^2.1.3
-  hashlib: ^1.20.4
+  hashlib: ^1.21.2
 
 dev_dependencies:
-  coverage: ^1.9.2
+  coverage: ^1.13.1
   lints: ^6.0.0
-  test: ^1.25.8
+  test: ^1.26.1
