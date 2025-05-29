@@ -27,7 +27,7 @@ class SteamTOTP {
 
   /// By default, the current epoch time will be used.
   /// This behavior can be overridden by passing in [unixSeconds] explicitly.
-  String generate([int? unixSeconds]) {
+  String generate([final int? unixSeconds]) {
     int time = unixSeconds ?? DateTime.now().millisecondsSinceEpoch ~/ 1000;
     if (time < 0) {
       throw ArgumentError('unixSeconds must be non-negative.');
