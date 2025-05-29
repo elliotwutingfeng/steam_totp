@@ -25,5 +25,8 @@ void main() {
         'RMPTG',
       );
     });
+    test('Current epoch time', () {
+      expect(SteamTOTP(secret: 'ORUGKIDROVUWJZG66A=').generate().length, 5);
+    });
   });
 }
