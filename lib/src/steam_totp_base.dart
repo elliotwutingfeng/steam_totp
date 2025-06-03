@@ -55,6 +55,6 @@ class SteamTOTP {
       codeArray[i] = steamChars[codePoint % steamChars.length];
       codePoint = codePoint ~/ steamChars.length;
     }
-    return codeArray.join('');
+    return codeArray.join();
   }
 }
