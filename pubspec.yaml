@@ -15,7 +15,7 @@ environment:
   sdk: ^3.8.0
 
 dependencies:
-  hashlib: ^1.21.2
+  hashlib: ^2.0.0
 
 dev_dependencies:
   coverage: ^1.14.0
