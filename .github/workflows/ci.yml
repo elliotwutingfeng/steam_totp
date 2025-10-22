@@ -15,6 +15,12 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v5
 
+      - name: Setup Node
+        uses: actions/setup-node@v6
+        with:
+            node-version: "latest"
+            check-latest: true
+
       - name: Set up Dart SDK
         uses: dart-lang/setup-dart@v1
         with:
@@ -34,12 +40,21 @@ jobs:
         if: matrix.os == 'ubuntu-latest'
         run: sudo apt-get update && sudo apt-get install -y lcov
 
+      - name: Setup Xvfb
+        if: matrix.os == 'ubuntu-latest'
+        run: |
+          sudo apt-get update && sudo apt-get install -y xvfb
+          Xvfb :99 -screen 0 1920x1080x24 &
+          export DISPLAY=:99
+
       - name: Test without coverage report
         if: matrix.os != 'ubuntu-latest'
         run: make tests
 
       - name: Test and generate coverage report
         if: matrix.os == 'ubuntu-latest'
+        env:
+          DISPLAY: :99
         run: make tests_with_coverage_report
 
       - name: Upload coverage to Coveralls
