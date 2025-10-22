@@ -6,23 +6,30 @@ import 'package:hashlib/hashlib.dart';
 /// [SteamTOTP] generates 5-character alphanumeric Steam TOTP codes.
 /// Possible characters can be found in [SteamTOTP.steamChars].
 class SteamTOTP {
-  late String secret;
-  late Uint8List _sharedSecretArray;
+  final String secret;
+  final Uint8List _sharedSecretArray;
 
   static const String steamChars = '23456789BCDFGHJKMNPQRTVWXY';
 
-  SteamTOTP({required this.secret}) {
+  const SteamTOTP._({
+    required this.secret,
+    required final Uint8List sharedSecretArray,
+  }) : _sharedSecretArray = sharedSecretArray;
+
+  factory SteamTOTP({required final String secret}) {
     if (secret.isEmpty) {
       throw ArgumentError('secret must not be empty.');
     }
+    final Uint8List secretArray;
     try {
-      _sharedSecretArray = fromBase32(secret, codec: Base32Codec.standard);
-      if (_sharedSecretArray.isEmpty) {
+      secretArray = fromBase32(secret, codec: Base32Codec.standard);
+      if (secretArray.isEmpty) {
         throw Exception();
       }
     } catch (_) {
       throw ArgumentError('secret must be valid base32.');
     }
+    return SteamTOTP._(secret: secret, sharedSecretArray: secretArray);
   }
 
   /// By default, the current epoch time will be used.
